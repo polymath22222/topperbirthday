@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Card</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: 'Montserrat', sans-serif;
+      background: repeating-linear-gradient(
+        45deg,
+        #ffe3ec,
+        #ffe3ec 10px,
+        #ffb6c1 10px,
+        #ffb6c1 20px
+      );
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .message-card {
+      width: 90%;
+      max-width: 350px;
+      background: #ff66a3;
+      border: 3px solid #000000;
+      box-shadow: 12px 12px 0 #000000;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      translate: -6px -6px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+    }
+
+    .message-card:hover {
+      translate: -6px;
+    }
+
+    .head {
+      font-size: 14px;
+      font-weight: 900;
+      width: 100%;
+      height: 32px;
+      background: #ffffff;
+      padding: 5px 12px;
+      color: #000000;
+      border-bottom: 3px solid #000000;
+    }
+
+    .content {
+      padding: 16px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .content::-webkit-scrollbar-thumb {
+      background-color: #000000;
+      border-radius: 3px;
+    }
+
+    .stack,
+    .stack-right-bottom {
+      width: 300px;
+      max-width: 100%;
+      transition: 0.25s ease;
+      position: absolute;
+    }
+
+    .stack {
+      top: 10%;
+      left: 10%;
+    }
+
+    .stack-right-bottom {
+      bottom: 10%;
+      right: 10%;
+    }
+
+    .stack:hover,
+    .stack-right-bottom:hover {
+      transform: rotate(5deg);
+    }
+
+    .stack:hover .card:before,
+    .stack-right-bottom:hover .card:before {
+      transform: translateY(-2%) rotate(-4deg);
+    }
+
+    .stack:hover .card:after,
+    .stack-right-bottom:hover .card:after {
+      transform: translateY(2%) rotate(4deg);
+    }
+
+    .card {
+      aspect-ratio: 3 / 2;
+      border: 4px solid;
+      background-color: #fff;
+      position: relative;
+      transition: 0.15s ease;
+      cursor: pointer;
+      padding: 5% 5% 15% 5%;
+    }
+
+    .card:before,
+    .card:after {
+      content: "";
+      display: block;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border: 4px solid;
+      background-color: #fff;
+      transform-origin: center center;
+      z-index: -1;
+      transition: 0.15s ease;
+      top: 0;
+      left: 0;
+    }
+
+    .card:before {
+      transform: translateY(-2%) rotate(-6deg);
+    }
+
+    .card:after {
+      transform: translateY(2%) rotate(6deg);
+    }
+
+    .image {
+      width: 100%;
+      border: 4px solid;
+      background-color: #eee;
+      aspect-ratio: 1 / 1;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .stack .image {
+      background-image: url('pic1.jpg');
+    }
+
+    .stack-right-bottom .image {
+      background-image: url('pic2.jpg');
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      background: #222;
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Image Card - Top Left -->
+  <div class="stack">
+    <div class="card">
+      <div class="image"></div>
+    </div>
+  </div>
+
+  <!-- Image Card - Bottom Right -->
+  <div class="stack-right-bottom">
+    <div class="card">
+      <div class="image"></div>
+    </div>
+  </div>
+
+  <!-- Text Message Card - Centered -->
+  <div class="message-card">
+    <div class="head">Birthday Note</div>
+    <div class="content" id="message"></div><span class="cursor"></span>
+  </div>
+
+  <script>
+    const fullMessage = `
+its 19 april
+
+First of all… Wish you a Many More Happy Happy Birthday chaannnndddaaaannnnaaaa (polymath)! 🎉  
+I hope today brings you the kind of joy you bring into other people’s lives steady, calm, and full of warmth.
+Honestly, I just wanted to use this moment to say something I probably don’t say enough.
+You’re one of the most kind-hearted and genuine people I’ve met. It’s not about doing grand things  it’s about how you show up in the little moments. The way you listen, the way you understand without judging, and how you somehow make people feel better just by being around… it’s something rare.
+You’ve got this quiet strength  not loud or showy  but real. And it makes a difference. More than you probably realize.
+Birthdays are usually all about cake and wishes (and hopefully a little too much food 😄), but more than that, I hope today reminds you of how appreciated you are  not just today, but all the time.
+I hope this year brings you peace, growth, and moments that make you feel truly alive. And when things get tough (because sometimes they do), I hope you always remember the kind of person you are thoughtful, sincere, and strong in ways that truly matter.
+Keep being you you’re genuinely someone worth celebrating.
+Wishing you all the goodness this world has to offer.
+Take care, and once again happy birthday! ✨
+`;
+
+    let i = 0;
+    function typeWriter() {
+      if (i < fullMessage.length) {
+        document.getElementById("message").innerHTML += fullMessage.charAt(i);
+        i++;
+        setTimeout(typeWriter, 30);
+      }
+    }
+
+    window.onload = typeWriter;
+  </script>
+
+</body>
+</html>
